@@ -131,7 +131,7 @@ Risk Check
       |
       v
 Amount > Approval Threshold?
-      /       \
+       |       
    +--+--+
    |     |
   Yes    No
@@ -207,10 +207,12 @@ Supported trigger types can include:
 
 Example:
 
+```text
 trigger:
   type: WHATSAPP_MESSAGE
   condition:
     message: "balance"
+```
 
 ### Conditions & Branching
 
@@ -218,11 +220,15 @@ Business processes frequently need decisions.
 
 Flow supports configurable conditions such as:
 
+```text
 balance.available > 100000
+```
 
 or:
 
+```text
 payment.amount >= 500000
+```
 
 A workflow can then branch:
 
@@ -271,6 +277,7 @@ A connector can encapsulate:
 
 Example:
 
+```text
 connector:
   name: InsuranceSystem
 
@@ -285,7 +292,7 @@ connector:
     - name: getClaimtatus
       method: GET
       path: /customers/{customerId}/claim/status
-
+```
 This allows different clients to connect their own systems to Flow without changing the workflow engine itself.
 
 ### Human-in-the-Loop
@@ -294,7 +301,8 @@ Not every decision should be automated.
 
 Flow supports human tasks when a process requires review, approval, or intervention.
 
-```text Automated Processing
+```text
+Automated Processing
         |
         v
    Risk Assessment
@@ -331,6 +339,7 @@ Workflows should be defined as configuration rather than hard-coded application 
 
 Example:
 
+```text
 workflow:
   name: payment-approval
   version: 3
@@ -356,7 +365,7 @@ workflow:
     - id: notify-customer
       type: WHATSAPP_MESSAGE
       template: payment-success
-
+```
 The same engine can execute completely different workflows without changing its core implementation.
 
 ### Workflow Versioning
@@ -415,7 +424,7 @@ A workflow execution maintains its own state and context.
 ```
 
 Example execution:
-
+```text
 {
   "executionId": "WF-92831",
   "workflow": "payment-approval",
@@ -423,7 +432,7 @@ Example execution:
   "status": "WAITING_FOR_APPROVAL",
   "currentStep": "manager-approval"
 }
-
+```
 ### Event-Driven Automation
 
 Flow can react to events emitted by other systems.
