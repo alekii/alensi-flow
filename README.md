@@ -47,7 +47,7 @@ For example:
         Webhooks          Conditions        REST APIs
         Schedules         Branching         gRPC
         Events            Expressions       Events
-        WhatsApp                           WhatsApp
+        WhatsApp                            WhatsApp
         Manual                              Email
 ```
 
@@ -55,7 +55,8 @@ A workflow can therefore coordinate multiple systems without owning their busine
 
 For example:
 
-Customer Request
+```text
+    Customer Request
        |
        v
      Flow
@@ -70,6 +71,7 @@ Customer Request
        |
        v
     Response
+```
 
 Example: WhatsApp Liquidity Inquiry
 
@@ -81,6 +83,7 @@ Balance
 
 Flow can execute:
 
+```text
 WhatsApp Message
        |
        v
@@ -101,17 +104,18 @@ Transform Response
        v
 Send WhatsApp Message
 
+```
 The important part is that this does not require a dedicated backend implementation for every customer interaction.
 
 The same automation engine can support:
 
-Check liquidity balance
-Check loan status
-Request account statement
-Check repayment date
-Request payment instructions
-Notify customers of account events
-Escalate conversations to an agent
+- Check liquidity balance
+- Check loan status
+- Request account statement
+- Check repayment date
+- Request payment instructions
+- Notify customers of account events
+- Escalate conversations to an agent
 
 The business process is configuration; the underlying systems remain responsible for their domain operations.
 
@@ -119,6 +123,7 @@ Example: Payment Automation
 
 Flow can orchestrate payment-related processes without becoming the payment system itself.
 
+```text
 Payment Created
       |
       v
@@ -140,6 +145,7 @@ Checker Approval
    |
    v
 Payment Service
+```
 
 Alensi Pay remains responsible for payment execution.
 
@@ -149,6 +155,7 @@ Example: Insurance Claim
 
 Flow can orchestrate a configurable claims process:
 
+```text
 Claim Submitted
        |
        v
@@ -173,6 +180,7 @@ Reconciliation
        |
        v
 Claim Completed
+```
 
 The insurance domain remains in Alensi Insure.
 
@@ -186,16 +194,16 @@ A workflow can begin from different types of events.
 
 Supported trigger types can include:
 
-HTTP webhook
-REST API request
-WhatsApp message
-Scheduled execution
-Cron expression
-Domain event
-Kafka event
-RabbitMQ message
-Manual execution
-External system event
+- HTTP webhook
+- REST API request
+- WhatsApp message
+- Scheduled execution
+- Cron expression
+- Domain event
+- Kafka event
+- RabbitMQ message
+- Manual execution
+- External system event
 
 Example:
 
@@ -233,18 +241,18 @@ Actions represent operations that Flow can execute.
 
 Examples include:
 
-HTTP requests
-gRPC calls
-Publish an event
-Send WhatsApp message
-Send email
-Create a task
-Assign a task
-Wait
-Retry
-Call another workflow
-Update workflow state
-Execute a configured connector
+- HTTP requests
+- gRPC calls
+- Publish an event
+- Send WhatsApp message
+- Send email
+- Create a task
+- Assign a task
+- Wait
+- Retry
+- Call another workflow
+- Update workflow state
+- Execute a configured connector
 
 ### Connectors
 
@@ -252,19 +260,19 @@ Flow uses connectors to interact with external systems.
 
 A connector can encapsulate:
 
-Authentication
-Base URL
-API operations
-Request mapping
-Response mapping
-Retry policy
-Timeout configuration
-Error handling
+- Authentication
+- Base URL
+- API operations
+- Request mapping
+- Response mapping
+- Retry policy
+- Timeout configuration
+- Error handling
 
 Example:
 
 connector:
-  name: LendingSystem
+  name: InsuranceSystem
 
   authentication:
     type: OAUTH2
@@ -274,9 +282,9 @@ connector:
       method: GET
       path: /customers/{customerId}/liquidity
 
-    - name: getLoanStatus
+    - name: getClaimtatus
       method: GET
-      path: /customers/{customerId}/loans/status
+      path: /customers/{customerId}/claim/status
 
 This allows different clients to connect their own systems to Flow without changing the workflow engine itself.
 
@@ -286,7 +294,7 @@ Not every decision should be automated.
 
 Flow supports human tasks when a process requires review, approval, or intervention.
 
-Automated Processing
+```text Automated Processing
         |
         v
    Risk Assessment
@@ -304,16 +312,16 @@ Continue     Human Task
                 |
                 v
              Continue
-
+```
 Tasks can be assigned based on:
 
-Role
-Permission
-Organization
-Region
-Branch
-User
-Business rules
+- Role
+- Permission
+- Organization
+- Region
+- Branch
+- User
+- Business rules
 
 Authorization is delegated to Alensi Identity.
 
@@ -359,9 +367,9 @@ Flow treats workflow definitions as versioned artifacts.
 
 payment-approval
 
-v1
-v2
-v3
+- v1
+- v2
+- v3
 
 Existing executions continue using the version under which they started, while new executions can use the latest active version.
 
@@ -373,16 +381,16 @@ Long-running business processes introduce failure scenarios.
 
 Flow is designed around:
 
-Idempotent execution
-Retry policies
-Exponential backoff
-Timeouts
-Dead-letter handling
-Execution checkpoints
-Duplicate-event protection
-Failure recovery
-Compensation actions
-Execution state persistence
+- Idempotent execution
+- Retry policies
+- Exponential backoff
+- Timeouts
+- Dead-letter handling
+- Execution checkpoints
+- Duplicate-event protection
+- Failure recovery
+- Compensation actions
+- Execution state persistence
 
 A failed external API call should not necessarily mean the entire workflow is lost.
 
@@ -390,18 +398,21 @@ A failed external API call should not necessarily mean the entire workflow is lo
 
 A workflow execution maintains its own state and context.
 
-Workflow Definition
-        |
-        v
-Workflow Execution
-        |
-        +-- Context
-        +-- Current Step
-        +-- Variables
-        +-- Execution History
-        +-- Retry State
-        +-- Pending Tasks
-        +-- Errors
+```text
+
+  Workflow Definition
+          |
+          v
+  Workflow Execution
+          |
+          +-- Context
+          +-- Current Step
+          +-- Variables
+          +-- Execution History
+          +-- Retry State
+          +-- Pending Tasks
+          +-- Errors
+```
 
 Example execution:
 
@@ -417,7 +428,8 @@ Example execution:
 
 Flow can react to events emitted by other systems.
 
-PaymentFailed
+```text
+     PaymentFailed
       |
       v
      Flow
@@ -434,6 +446,7 @@ PaymentFailed
               +--> Notify Customer
 
 This allows Flow to coordinate asynchronous business processes across distributed systems.
+```
 
 ## Alensi Ecosystem
 
@@ -460,39 +473,39 @@ Flow acts as an orchestration layer across the Alensi platform.
 
 Provides:
 
-Authentication
-Authorization
-Roles
-Permissions
-Organizational scope
+- Authentication
+- Authorization
+- Roles
+- Permissions
+- Organizational scope
 
 ### Alensi Pay
 
 Provides:
 
-Payment execution
-Provider orchestration
-Payment status
-Refunds
-Provider integrations
+- Payment execution
+- Provider orchestration
+- Payment status
+- Refunds
+- Provider integrations
 
 ### Alensi Recon
 
 Provides:
 
-Transaction ingestion
-Matching
-Reconciliation
-Exception management
+- Transaction ingestion
+- Matching
+- Reconciliation
+- Exception management
 
 ### Alensi Insure
 
 Provides:
 
-Policies
-Claims
-Coverage
-Insurance intelligence
+- Policies
+- Claims
+- Coverage
+- Insurance intelligence
 
 ### Alensi Flow
 
@@ -504,6 +517,7 @@ It does not replace them.
 
 A client could configure:
 
+```text
 WHEN
     PaymentFailed
 
@@ -524,6 +538,7 @@ THEN
 
 THEN
     Notify Customer
+```
 
 No new bespoke microservice is required for this particular process.
 
@@ -531,36 +546,36 @@ The process is represented as configuration and executed by the Flow engine.
 
 ## Technology Stack
 
-Java
-Spring Boot
-Spring WebFlux
-PostgreSQL
-Redis
-RabbitMQ / Kafka
-gRPC
-WhatsApp Business API
-OpenTelemetry
-Docker
-Kubernetes
-GitHub Actions
+- Java
+- Spring Boot
+- Spring WebFlux
+- PostgreSQL
+- Redis
+- RabbitMQ / Kafka
+- gRPC
+- WhatsApp Business API
+- OpenTelemetry
+- Docker
+- Kubernetes
+- GitHub Actions
 
 ## Engineering Focus
 
 Alensi Flow focuses on:
 
-Configurable business processes
-Distributed workflow execution
-Event-driven architecture
-Long-running transactions
-Human-in-the-loop automation
-Integration orchestration
-Reliable asynchronous processing
-Idempotency
-Failure recovery
-Workflow versioning
-Auditability
-Multi-tenant configuration
-Observability
+- Configurable business processes
+- Distributed workflow execution
+- Event-driven architecture
+- Long-running transactions
+- Human-in-the-loop automation
+- Integration orchestration
+- Reliable asynchronous processing
+- Idempotency
+- Failure recovery
+- Workflow versioning
+- Auditability
+- Multi-tenant configuration
+- Observability
 
 ## Project Status
 
@@ -574,28 +589,28 @@ The goal is to build a reusable automation engine capable of adapting to differe
 
 Architecture and engineering documentation will cover:
 
-System architecture
-Workflow execution model
-Workflow definition model
-State machines
-Rule and condition evaluation
-Connector architecture
-Event-driven processing
-Reliability and failure handling
-Workflow versioning
-Multi-tenancy
-Authorization
-Audit trails
-API specification
-Sequence diagrams
-Architecture Decision Records
+- System architecture
+- Workflow execution model
+- Workflow definition model
+- State machines
+- Rule and condition evaluation
+- Connector architecture
+- Event-driven processing
+- Reliability and failure handling
+- Workflow versioning
+- Multi-tenancy
+- Authorization
+- Audit trails
+- API specification
+- Sequence diagrams
+- Architecture Decision Records
 
 ## Getting Started
 
-Clone the repository.
-Configure the required environment variables.
-Start the infrastructure dependencies.
-Run the Spring Boot application.
-Define or import a workflow.
-Trigger a workflow.
-Inspect its execution state and history.
+- Clone the repository.
+- Configure the required environment variables.
+- Start the infrastructure dependencies.
+- Run the Spring Boot application.
+- Define or import a workflow.
+- Trigger a workflow.
+- Inspect its execution state and history.
