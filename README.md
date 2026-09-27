@@ -62,7 +62,7 @@ Customer Request
        |
        +----> Identity
        |
-       +----> LMS / CRM
+       +----> INSURANCE / CRM
        |
        +----> Payment Service
        |
