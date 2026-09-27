@@ -110,7 +110,7 @@ The important part is that this does not require a dedicated backend implementat
 The same automation engine can support:
 
 - Check liquidity balance
-- Check loan status
+- Check claim status
 - Request account statement
 - Check repayment date
 - Request payment instructions
