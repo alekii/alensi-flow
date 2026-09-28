@@ -554,6 +554,131 @@ No new bespoke microservice is required for this particular process.
 
 The process is represented as configuration and executed by the Flow engine.
 
+
+## Positioning & Interoperability
+
+Alensi Flow is not intended to replace general-purpose automation platforms such as n8n.
+
+Tools like n8n are excellent at connecting applications, transforming data, consuming webhooks, calling APIs, and automating integrations across a broad ecosystem of third-party services.
+
+Alensi Flow focuses on a different layer: **business process orchestration**.
+
+The distinction is primarily one of responsibility.
+
+```text
+General Integration Automation
+        |
+        |  n8n
+        |
+        +---- Connect SaaS systems
+        +---- Transform data
+        +---- Call APIs
+        +---- Process webhooks
+        +---- Trigger notifications
+        |
+        v
+Business Process Orchestration
+        |
+        |  Alensi Flow
+        |
+        +---- Execute long-running processes
+        +---- Apply business rules
+        +---- Manage human tasks
+        +---- Enforce approval flows
+        +---- Coordinate domain services
+        +---- Maintain execution state
+        +---- Handle retries and failures
+        +---- Provide audit trails
+```
+
+The two systems can also work together.
+
+For example:
+
+```
+Zoho CRM
+    |
+    v
+   n8n
+    |
+    | CustomerCreated event
+    v
+Alensi Gateway
+    |
+    v
+Alensi Flow
+    |
+    +---- Identity
+    |
+    +---- KYC
+    |
+    +---- Risk Assessment
+    |
+    +---- Approval
+    |
+    +---- Account Creation
+    |
+    +---- Notification
+```
+
+In this model, n8n handles integration plumbing while Alensi Flow manages the organization's business process.
+
+### Domain-Aware Orchestration
+
+Alensi Flow is designed to integrate deeply with the Alensi platform.
+
+It can coordinate capabilities provided by:
+
+- Alensi Identity — identity, authorization, organizational scope, and permissions
+- Alensi Pay — payment execution and payment-provider orchestration
+- Alensi Recon — reconciliation and exception handling
+- Alensi Insure — policies, claims, coverage, and insurance intelligence
+
+This allows Flow to model processes that are more than simple API chains.
+
+For example:
+
+```text
+Payment Created
+       |
+       v
+Evaluate Amount
+       |
+       +---- Below Threshold ----> Execute Payment
+       |
+       +---- Above Threshold ----> Maker Approval
+                                      |
+                                      v
+                                Checker Approval
+                                      |
+                                      v
+                                Execute Payment
+                                      |
+                                      v
+                              Reconciliation
+                                      |
+                                      v
+                                  Complete
+```
+
+The process can incorporate organizational permissions, business rules, human decisions, asynchronous events, retries, and long-running execution state.
+
+### External Automation Platforms
+
+Alensi Flow should remain interoperable with external automation platforms rather than attempting to replace every integration tool.
+
+Potential integration patterns include:
+
+- Webhooks
+- REST APIs
+- gRPC
+- Kafka
+- RabbitMQ
+- Scheduled jobs
+- Event-driven triggers
+
+This allows organizations to use Flow alongside existing automation infrastructure while keeping critical business processes inside a controlled, auditable orchestration layer.
+
 ## Technology Stack
 
 - Java
