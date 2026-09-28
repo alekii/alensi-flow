@@ -458,6 +458,50 @@ Flow can react to events emitted by other systems.
 This allows Flow to coordinate asynchronous business processes across distributed systems.
 ```
 
+### Auditability
+
+Business automation requires more than technical logs.
+
+Alensi Flow maintains an audit history of workflow definitions, executions, decisions, human tasks, state transitions, and actions performed during a business process.
+
+Audit records capture context such as:
+
+- Tenant
+- Organization
+- Actor
+- Role or permission context
+- Workflow
+- Workflow version
+- Execution
+- Action
+- Resource
+- Timestamp
+- Correlation ID
+- Causation ID
+- Result
+
+For example:
+
+```text
+Payment Created
+      |
+      v
+Approval Requested
+      |
+      v
+Approved by Regional Manager
+      |
+      v
+Payment Executed
+      |
+      v
+Reconciliation Completed
+```
+
+The audit trail provides an immutable business history that can be used for operational investigation, compliance, dispute resolution, and process analysis.
+
+Audit trails are distinct from application logs, metrics, and distributed traces. Logs describe technical events, metrics describe system behavior, traces describe request execution paths, while audit records describe business actions and decisions.
+
 ## Alensi Ecosystem
 
 Flow acts as an orchestration layer across the Alensi platform.
