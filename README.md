@@ -9,7 +9,7 @@ Instead of hard-coding every business process into application logic, Flow allow
 Flow can orchestrate processes across Alensi services and external systems without requiring a new bespoke service for every business workflow.
 
 ---
-<img src="docs/architecture/alensi-flow-overview.png" alt="Alensi Flow Architecture Overview">
+<img src="docs/architecture/Alensi-flow-overview.png" alt="Alensi Flow Architecture Overview">
 
 ## What This Project Demonstrates
 
